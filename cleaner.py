@@ -42,12 +42,12 @@ def clean_subscribtions():
     del(subscribers, count_of_dogs)
 
     while vk.method('users.getSubscriptions')['users']['count'] != 0:
-        for user_id in vk.method('users.getSubscriptions', {'count': 200}):
+        for user_id in vk.method('users.getSubscriptions', {'count': 200})['users']['items']:
             vk.method('friends.delete', {'user_id': user_id})
             time.sleep(1)
 
     while vk.method('users.getSubscriptions')['groups']['count'] != 0:
-        for group_id in vk.method('users.getSubscriptions', {'count': 200}):
+        for group_id in vk.method('users.getSubscriptions', {'count': 200})['groups']['items']:
             vk.method('groups.leave', {'group_id': group_id})
             time.sleep(1)
 
@@ -114,6 +114,8 @@ try:
             print('Access granted!')
         except vk_api.exceptions.ApiError: # At this moment can raised only if token is invalid
             print('Invalid token!'); exit()
+    else:
+        print('Incorrect choice. Goodbye! :D'); exit()
 
     print('\nUsing this program, you can erase: \n\t1. Profile Info\n\t2. Friends\n\t3. Subscribtions\n\t4. Messages\n\t5. Groups\n\t6. Photos\n\t7. Videos\n\t8. Wall\n\t[!] 9. Clean EVERYTHING')
     print('\nEnter numbers of things, which you want to erase. Like \'1\', \'4\', \'567\', \'247\'. If you want to erase everything, enter \'9\' only.')
